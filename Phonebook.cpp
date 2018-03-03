@@ -1,0 +1,149 @@
+#include "Phonebook.h"
+#include <iostream>
+#include <stack>
+using namespace std;
+PhoneNode::PhoneNode()
+{
+    parent = nullptr;
+    isNumber = false;
+    
+    for(int i = 0; i < LEN; i++)
+    {
+	children[i] = nullptr;
+    }
+}
+
+Phonebook::Phonebook()
+{	
+    root = nullptr;
+}
+
+bool Phonebook::insert(std::string p_number, std::string contact_name)
+{
+    int len = p_number.size();
+
+    if(root == nullptr)
+    {
+	root = new PhoneNode();
+    }    
+
+    PhoneNode * lastParent = root;
+
+    for(int i = 0; i < len; i++)
+    {
+	char curr = p_number.at(i);
+
+	int index = curr - '0';
+	
+	if(i != len - 1)
+	{
+	    if(lastParent->children[index] == nullptr)
+	    {
+	    	lastParent->children[index] = new PhoneNode();
+	    	lastParent->children[index]->parent = lastParent;
+	    }
+	}
+
+	else
+	{
+	    if(lastParent->children[index] == nullptr)
+	    {
+	    	lastParent->children[index] = new PhoneNode();
+	    	lastParent->children[index]->parent = lastParent;
+	    }
+	    
+	    lastParent->children[index]->isNumber = true;
+
+	    //contacts.insert({contact_name, lastParent->children[index]});
+	    contacts[contact_name] = lastParent->children[index];
+	}
+
+	lastParent = lastParent->children[index];
+    } 
+
+    return true;
+}
+
+bool Phonebook::find(std::string contact_name)
+{
+    if(contacts.find(contact_name) != contacts.end())
+    {
+	PhoneNode * curr = contacts.find(contact_name)->second;
+	
+	if(curr->isNumber)
+	{
+	    return true;
+	}	
+    }   
+
+    return false; 
+}
+
+std::string Phonebook::findNumber(std::string contact_name)
+{
+    std::stack<int> digits;
+    if(find(contact_name))
+    {
+	PhoneNode * curr = contacts.find(contact_name)->second;
+	PhoneNode * curr_parent = curr->parent;
+
+	while(curr != root)
+	{
+	    int num = 0;
+	    for(int i = 0; i < LEN; i++)
+	    {
+		if(curr_parent->children[i] == curr)
+		{
+		    digits.push(i);
+		    break;
+		}
+            } 
+
+	    curr = curr_parent;
+	    curr_parent = curr_parent->parent;
+	}
+
+	string output = "";
+	
+	while(!digits.empty())
+	{
+	    int digit = digits.top();
+	    digits.pop();
+	    output = output + to_string(digit);
+	}
+	
+	return output;
+    }
+
+    else
+    {
+	return  "The specified contact name is not in the phonebook";
+    }
+}
+
+void Phonebook::deleteAll(PhoneNode * n)
+{
+    if(n == nullptr)
+    {
+	return;
+    }
+
+    else
+    {
+	for(int i = 0; i < LEN; i++)
+	{
+	    if(n->children[i] != nullptr)
+	    {
+		deleteAll(n->children[i]);
+            }
+	}
+
+	delete n;
+    }
+
+}
+
+Phonebook::~Phonebook()
+{
+    deleteAll(root);
+}
