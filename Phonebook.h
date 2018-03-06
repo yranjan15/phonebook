@@ -32,6 +32,8 @@ class Phonebook
     	bool find(std::string contact_name);
 	
 	std::string findNumber(std::string contact_name);
+
+	void deleteContact(std::string contact_name);
     	~Phonebook();
 
     private:
@@ -39,4 +41,6 @@ class Phonebook
 	std::unordered_map<std::string, PhoneNode *> contacts;
 	void deleteAll(PhoneNode * n);
 };
+
+
 #endif

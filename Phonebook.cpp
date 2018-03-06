@@ -117,10 +117,24 @@ std::string Phonebook::findNumber(std::string contact_name)
 
     else
     {
-	return  "The specified contact name is not in the phonebook";
+	return  "The specified contact name " + 
+	contact_name + " is not in the phonebook";
     }
 }
 
+void Phonebook::deleteContact(std::string contact_name)
+{
+    if(find(contact_name))
+    {
+	contacts.erase(contact_name);
+    }
+
+    else
+    {
+	cout << "The specified contact " << contact_name 
+	<< " does not exist in the phonebook." << endl;
+    }
+}
 void Phonebook::deleteAll(PhoneNode * n)
 {
     if(n == nullptr)
