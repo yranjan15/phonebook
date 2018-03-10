@@ -21,6 +21,11 @@ Phonebook::Phonebook()
 bool Phonebook::insert(std::string p_number, std::string contact_name)
 {
     int len = p_number.size();
+    
+    if(contacts.find(contact_name) != contacts.end())
+    {
+	return false;
+    }
 
     if(root == nullptr)
     {
