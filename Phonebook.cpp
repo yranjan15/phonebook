@@ -117,7 +117,7 @@ std::string Phonebook::findNumber(std::string contact_name)
 	    output = output + to_string(digit);
 	}
 	
-	return output;
+	return "Phone number for " + contact_name + " is " + output;
     }
 
     else

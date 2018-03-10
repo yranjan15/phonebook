@@ -44,11 +44,37 @@ int main()
 		cout << "Invalid phone number. Please retry operation with " <<
 			"valid fields. " << endl;
             }
-	    if(number.size() != 10)
+	    else if(number.size() != 10)
 	    {
 		cout << "Invalid phone number. Please retry operation with " <<
 			"valid fields. " << endl;
             }
+
+	    else
+            {
+		bool result = entry->insert(number, name);
+		if(!result)
+		{
+		    cout << "Insertion Failed. Contact already exists " <<
+			    "in phonebook." << endl;
+		}
+
+		else
+                {
+		   cout << "Inserted " + name + " into phonebook." << endl;
+                }
+            }
+	}
+
+	else if(input == "f")
+	{
+	    string name;
+	    
+	    cout << "Enter name of contact to find." << endl;
+
+	    getline(cin, name);
+	    
+	    cout << entry->findNumber(name) << endl;
 	}
     }
 
