@@ -5,6 +5,9 @@ int main()
 {
     Phonebook * entry = new Phonebook();
 
+    //always attempt to read the saved phonebook
+    //from the contacts.txt file before proceeding
+    entry->loadFromfile();    
     bool done = false;
 
     while(!done)
@@ -75,6 +78,22 @@ int main()
 	    getline(cin, name);
 	    
 	    cout << entry->findNumber(name) << endl;
+	}
+
+	else if(input == "s")
+	{
+	    entry->writeTofile();
+	}
+
+	else if(input == "r")
+	{	
+	    string name;
+	    
+	    cout << "Enter name of contact to remove." << endl;
+
+	    getline(cin, name);
+	    
+	    entry->deleteContact(name);
 	}
     }
 
