@@ -191,5 +191,55 @@ void Phonebook::writeTofile()
 	string result = name + "," + number + "\n";
 	writeFile << result;
    }
-     
+   
+   writeFile.close(); 
+}
+
+void Phonebook::loadFromfile()
+{
+   string record;
+   
+   //need to use ifstream to read text
+   //from the file Contacts.txt
+
+   ifstream readfile ("Contacts.txt");
+   
+   //only perform read operations if the file is open 
+   if(readfile.is_open())
+   {
+       while(getline(readfile, record))
+       {
+           string name;
+           string number;
+           
+           bool pastComma = false;
+           //cout << record << endl;
+	   for(int i = 0; i < record.length(); i++)
+	   {
+	   	if(record[i] == ',')
+		{
+		    pastComma = true;
+		}
+
+                else
+                {
+                    if(pastComma)
+                    {
+		        number = number + record[i];
+                    }
+
+		    else
+                    {
+                        name = name + record[i];
+                    }
+                }
+           }
+	   
+           //cout << name << endl;
+           //cout << number << endl;
+	   //insert the phone number and name read from the 
+	   //text file
+	   insert(number, name);	
+       }     
+   }
 }
