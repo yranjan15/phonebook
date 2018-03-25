@@ -1,6 +1,9 @@
 #include "Phonebook.h"
 #include <iostream>
 #include <stack>
+#include <iostream>
+#include <fstream>
+
 using namespace std;
 PhoneNode::PhoneNode()
 {
@@ -117,7 +120,7 @@ std::string Phonebook::findNumber(std::string contact_name)
 	    output = output + to_string(digit);
 	}
 	
-	return "Phone number for " + contact_name + " is " + output;
+	return output;
     }
 
     else
@@ -165,4 +168,28 @@ void Phonebook::deleteAll(PhoneNode * n)
 Phonebook::~Phonebook()
 {
     deleteAll(root);
+}
+
+void Phonebook::writeTofile()
+{
+    ofstream writeFile;
+    writeFile.open("Contacts.txt");
+    	
+    vector<string> contact_names;    
+    for(unordered_map<string, PhoneNode *>::iterator it = contacts.begin(); it != contacts.end(); ++it)
+    {
+	string name = it->first;
+	//string number = findNumber(name); was causing issues, was trying to access contact
+	//map while iterating throug the contact map
+	contact_names.push_back(name);
+    }       
+
+   for(int i = 0; i < contact_names.size(); i++)
+   {
+	string name = contact_names.at(i);
+	string number = findNumber(name);
+	string result = name + "," + number + "\n";
+	writeFile << result;
+   }
+     
 }

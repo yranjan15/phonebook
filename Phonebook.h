@@ -34,6 +34,8 @@ class Phonebook
 	std::string findNumber(std::string contact_name);
 
 	void deleteContact(std::string contact_name);
+
+	void writeTofile();
     	~Phonebook();
 
     private:
