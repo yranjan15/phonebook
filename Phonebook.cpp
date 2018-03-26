@@ -195,6 +195,28 @@ void Phonebook::writeTofile()
    writeFile.close(); 
 }
 
+void Phonebook::viewContacts()
+{
+    	
+    vector<string> contact_names;    
+    for(unordered_map<string, PhoneNode *>::iterator it = contacts.begin(); it != contacts.end(); ++it)
+    {
+	string name = it->first;
+	//string number = findNumber(name); was causing issues, was trying to access contact
+	//map while iterating throug the contact map
+	contact_names.push_back(name);
+    }       
+
+   for(int i = 0; i < contact_names.size(); i++)
+   {
+	string name = contact_names.at(i);
+	string number = findNumber(name);
+	string result = name + "," + number;
+	cout << result << endl;
+   }
+   
+}
+
 void Phonebook::loadFromfile()
 {
    string record;

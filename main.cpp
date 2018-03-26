@@ -15,7 +15,7 @@ int main()
 	cout << "Select the phonebook operation to perform below: " << endl;
 
 	cout << "i) Insert Contact r) Remove Contact f) find Contact " << endl;
-	cout << "s) save phonebook q) quit" << endl;
+	cout << "v) view current Contacts q) quit" << endl;
 
 	string input = "";
 	getline(cin, input);
@@ -80,11 +80,6 @@ int main()
 	    cout << entry->findNumber(name) << endl;
 	}
 
-	else if(input == "s")
-	{
-	    entry->writeTofile();
-	}
-
 	else if(input == "r")
 	{	
 	    string name;
@@ -95,8 +90,14 @@ int main()
 	    
 	    entry->deleteContact(name);
 	}
-    }
 
+	else if(input == "v")
+	{
+	    entry->viewContacts();
+	}
+    }
+    //save current phonebook before deallocating memory
+    entry->writeTofile();
     delete entry;
 
 }
